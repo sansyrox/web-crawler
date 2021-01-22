@@ -28,12 +28,14 @@ class LinkParser(HTMLParser):
         return set(self.link_array)
 
 
-def get_sub_links(url):
+def get_sub_links(url, verbose):
     """This is a helper function. We should only need to
     export this function outside.
     """
     link_parser = LinkParser()
     response = requests.get(url)
+    if verbose:
+        print(f"Visited {url} with status code {response.status_code}")
     if response.status_code == 200:
         link_parser.feed(response.text)
         return [i[1] for i in link_parser.get_sub_links()]

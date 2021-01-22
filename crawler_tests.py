@@ -32,7 +32,7 @@ class TestWebCrawler(unittest.TestCase):
         )
 
     def test_get_sub_links(self):
-        sub_links = get_sub_links("http://localhost:5000")
+        sub_links = get_sub_links("http://localhost:5000", False)
         self.assertEqual(
             sorted(list(sub_links)),
             sorted(

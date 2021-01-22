@@ -14,7 +14,7 @@ class WebCrawler:
 
     """
 
-    def __init__(self, url, max_threads, max_pages) -> None:
+    def __init__(self, url, max_threads, max_pages, verbosity=False):
         """
         :type url: str
         :type max_threads: int
@@ -27,7 +27,8 @@ class WebCrawler:
         self.visited_lock = Lock()
         self.web_page_visited = set()
         self.web_pages_to_visit = queue.Queue()
-        self.web_pages_to_visit.put(url)  # decide if put or put no wait
+        self.web_pages_to_visit.put(url)
+        self.verbosity = verbosity
 
     @classmethod
     def get_host(cls, url):
@@ -44,13 +45,13 @@ class WebCrawler:
         while True:
             url = None
             try:
-                # we create a non blocking thread as we don't want the threads
+                # we create a blocking thread as want the threads
                 # to wait and the program should exit when the queue is empty
-                url = self.web_pages_to_visit.get(block=False)
+                url = self.web_pages_to_visit.get(timeout=10)
             except queue.Empty:
                 return
 
-            sub_urls = link_parser.get_sub_links(url)
+            sub_urls = link_parser.get_sub_links(url, self.verbosity)
 
             for sub_url in sub_urls:
                 with self.visited_lock:

@@ -16,6 +16,10 @@ def initialise_arguments():
     parser.add_argument(
         "--max_pages", help="limit the maximum pages that the crawler can parse"
     )
+    parser.add_argument(
+        "-v", "--verbose", help="increase the verbose output", type=bool, default=False
+    )
+
     args = parser.parse_args()
 
     return {
@@ -24,6 +28,7 @@ def initialise_arguments():
         if args.max_threads
         else min(32, os.cpu_count() + 4),  # is the max workers default value in python
         "max_pages": args.max_pages if args.max_pages else float("inf"),
+        "verbosity": args.verbose,
     }
 
 
