@@ -20,3 +20,12 @@ optional arguments:
 
   --max_threads         This is the number of threads that we can allot. See the codebase for the default algo used
 ```
+
+
+## Logging
+
+If the verbose mode is set to true, the visited websites are logged to stdout.
+
+## Testing
+
+A dummy flask server is set up before running the tests. One of the test queries the local server to check for the correctness of the web crawler.
